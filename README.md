@@ -29,8 +29,11 @@ sudo pip3 uninstall mock
 sudo pip3 install mock
 ```
 
-Install opencv:
-`sudo pip3 install opencv-python`
+Installing OpenCV on a raspberry pi can be a bit tricky.
+I followed this tutorial:
+[https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/](https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/)
+But instead of downloading the 3.3.0 archive I took the 3.4.0
+You really have to follow this tuto step by step without error, otherwise OpenCV won't compile. Count approximately 2-3 hours for that.
 
 ## Transfer learning
 
