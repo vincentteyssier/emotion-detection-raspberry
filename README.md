@@ -69,7 +69,7 @@ More datasets can also be found here: [https://www.mmifacedb.eu/collections/](ht
 
 Now that you have a trained model, connect by sftp to your raspberry and copy the files retrained_graph.pb, retrained_labels.txt from your retrained_data folder into a new folder on the raspberry.
 
-# PiCamera
+## PiCamera
 
 We are using the official raspberry pi camera v2.1. We need the `picamera` module for python.
 
@@ -163,7 +163,7 @@ with tf.Session() as sess:
 
             print("%s (%.2f%%)" % (predicted_label, max_value * 100))
 
-            cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             cv2.waitKey(100);
 
         key = cv2.waitKey(1) & 0xFF
