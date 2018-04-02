@@ -49,12 +49,23 @@ In this retraining we will feed the CK+ dataset to the Inception model the follo
 ```
 python ./tensorflow/examples/image_retraining/retrain.py \
 --bottleneck_dir=/retrained_data/bottlenecks \
---how_many_training_steps 500 \
+--how_many_training_steps 4000 \
 --model_dir=/retrained_data/inception \
 --output_graph=/retrained_data/retrained_graph.pb \
 --output_labels=/retrained_data/retrained_labels.txt \
 --image_dir /retrained_data/dataset
 ```
+
+Here we retrain for 4000 epochs. The CK+ dataset is not very big and you might want to augment it.
+Other datasets such as FER2013 or KDEF/AKDEF can be used to complement it. Another augmentation technique would be to use distortion, cropping, brightness changes. This can be achieved using the following parameters in your retrain command: `--flip_left_right`, `--random_crop 10`, `--random_scale 10` and `--random_brightness 10`
+However these commands make the training much longer since the bottlenecks are no longer reused at each epoch. TF suggests to use these only to polish your model before production.
+I also found an interesting article to collect images from Google Image Search:
+[https://nycdatascience.com/blog/student-works/facial-expression-recognition-tensorflow/](https://nycdatascience.com/blog/student-works/facial-expression-recognition-tensorflow/)
+Though it requires some manual review, it will definitely help diversifying your training examples.
+
+FER2013 can be downloaded on Kaggle: [https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge](https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge)
+More datasets can also be found here: [https://www.mmifacedb.eu/collections/](https://www.mmifacedb.eu/collections/)
+
 
 Now that you have a trained model, connect by sftp to your raspberry and copy the files retrained_graph.pb, retrained_labels.txt from your retrained_data folder into a new folder on the raspberry.
 
