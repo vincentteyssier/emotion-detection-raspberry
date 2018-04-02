@@ -6,11 +6,14 @@ import numpy as np
 import tensorflow as tf
 import sys
 
+DEBUG = True
+
 # instanciate the camera
 camera = PiCamera()
 camera.resolution = (1920, 1080)
 camera.framerate = 30
 rawCapture = PiRGBArray(camera, size=(1920, 1080))
+
 # allow the camera to warmup
 time.sleep(0.1)
 
@@ -33,26 +36,29 @@ softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     
+    # transform into a numpy array
+    image = frame.array
     # show the frame
-    cv2.imshow("face", frame)
-
+    cv2.imshow("face", image)
+    if DEBUG:
+        print (image.shape)
     # transform to Gray scale
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    if DEBUG:
+        print (gray.shape)
     # detect faces in our gray picture
     faces = faceDetect.detectMultiScale(gray,
                                         scaleFactor=1.3,
                                         minNeighbors=5
                                         )
 
-    # transform into a numpy array for tf processing
-    gray_np = gray.array
 
     for (x,y,w,h) in faces:
         #sampleNum = sampleNum+1
         #cv2.imwrite("./temp_dataset/"+str(sampleNum)+".jpg", gray[y:y+h,x:x+w])
         
         # feed the detected face (cropped image) to the tf graph
-        predictions = sess.run(softmax_tensor, {'DecodeJpeg:0': gray_np[y:y+h,x:x+w]})
+        predictions = sess.run(softmax_tensor, {'DecodeJpeg:0': gray[y:y+h,x:x+w]})
         prediction = predictions[0]
 
         # Get the highest confidence category.

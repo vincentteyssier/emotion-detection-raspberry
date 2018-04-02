@@ -5,8 +5,11 @@ In this repository we will first apply transfer learning to import the tensorflo
 The achieved model will then be implemented on a Raspberry Pi 3 B+
 
 Further improvements will consist in:
+- handle wait times between new detection
 - logging detections in a MySQL db and expose these logs in a RESTful API.
 - Using the KDEF dataset in addition to the CK+ dataset for better accuracy.
+- add threading and multiprocessing to improve fps as detailed [here](https://www.pyimagesearch.com/2015/12/21/increasing-webcam-fps-with-python-and-opencv/) and [here](https://github.com/datitran/object_detector_app/blob/master/object_detection_multithreading.py)
+- daemonize service
 
 ## Pre-requisite
 
