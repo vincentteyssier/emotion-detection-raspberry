@@ -4,9 +4,9 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import os
-import urllib2
+import urllib
 
-query = raw_input("Search Criteria: ")# you can change the query for the image  here
+query = input("Search Criteria: ")# you can change the query for the image  here
 image_type="ActiOn"
 query= query.split()
 query='+'.join(query)
@@ -50,7 +50,7 @@ for i in driver.find_elements_by_class_name("rg_meta"):
     link , Type = json.loads(i.get_attribute('innerHTML'))['ou'] , json.loads(i.get_attribute('innerHTML'))['ity']
     ActualImages.append((link,Type))
 
-print 'Total', len(ActualImages), 'Images'
+print ('Total' +len(ActualImages)+ 'Images')
 
 header={'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36"
 }
@@ -64,11 +64,11 @@ if not os.path.exists(DIR):
 ###print images
 for i , (img , Type) in enumerate( ActualImages):
     try:
-        req = urllib2.Request(img, headers={'User-Agent' : header})
-        raw_img = urllib2.urlopen(req).read()
+        req = urllib.Request(img, headers={'User-Agent' : header})
+        raw_img = urllib.urlopen(req).read()
 
         cntr = len([i for i in os.listdir(DIR) if image_type in i]) + 1
-        print cntr
+        print (cntr)
         if len(Type)==0:
             f = open(os.path.join(DIR , image_type + "_"+ str(cntr)+".jpg"), 'wb')
         else :
@@ -78,8 +78,8 @@ for i , (img , Type) in enumerate( ActualImages):
         f.write(raw_img)
         f.close()
     except Exception as e:
-        print "could not load : "+img
-        print e
+        print ("could not load : "+img)
+        print (e)
 
 # preprocess images downloaded above:
 Facial_Data=[]
@@ -119,13 +119,13 @@ for pic,ind in filename:
     
     try:
         dets = detector(img, 1)
-        print pic,n
+        print (pic + " " + n)
         for i, d in enumerate(dets):
             face=np.asarray(img[d.top():d.bottom(),d.left():d.right()],order='C')
             Face_Data.append(face)
             Face_Id.append(ind)
     except:
-        print 'Fail', n
+        print ('Fail '+n)
     
     n=n+1
 #pickle.dump(Face_Data,open('Face_Data.p','wb'))
@@ -149,7 +149,7 @@ for j in xrange(len(grey_face)):
         resized_grey_face.append(resize(grey_face[j],(100,100),mode='constant'))
         resized_grey_face_id.append(grey_face_id[j])
     except:
-        print j
+        print (j)
         
 pickle.dump(resized_grey_face,open('resized_grey_face.p','wb'))
 pickle.dump(resized_grey_face_id,open('resized_grey_face_id.p','wb'))
