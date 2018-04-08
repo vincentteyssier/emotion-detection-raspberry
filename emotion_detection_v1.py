@@ -69,8 +69,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
         print("%s (%.2f%%)" % (predicted_label, max_value * 100))
 
-        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-        cv2.waitKey(100);
+        cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
+        cv2.waitKey(100)
 
     key = cv2.waitKey(1) & 0xFF
 
